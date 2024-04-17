@@ -1,0 +1,531 @@
+$lightGreen : #b9e7e7;
+.app{   // root app
+  display: flex;
+  justify-content: center;
+
+  .container{
+
+    width: 1024px;
+
+
+    .link{
+      text-decoration: none;
+      color: inherit;
+    }
+
+    // Login & Register
+    .auth{              
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: $lightGreen;
+
+      h1{
+        font-size: 20px;
+        color: teal;
+        margin-bottom: 20px;
+      }
+
+      form{
+        display: flex;
+        flex-direction: column;
+        padding: 30px;
+        background: white;
+        width: 300px;
+        gap: 20px;
+
+
+        input{
+          padding: 10px;
+          border: none;
+          border-bottom: 1px solid gray;
+        }
+        
+        button{
+          padding: 10px;
+          border: none;
+          background: teal;
+          cursor: pointer;
+          color: white;
+        }
+        
+        .loginButton{
+          padding: 10px;
+          border-radius: 5px;
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: bold;
+          margin-bottom: 20px;
+          cursor: pointer;
+
+          .icon{
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+          }
+        }
+        
+        .google{
+          background-color: #df4930;
+        }
+
+        p{
+          font-size: 12px;
+          color: red;
+          text-align: center;
+        }
+
+        span{
+          margin-top: 0;
+          padding-top: 0;
+          font-size: 18px;
+          text-align: center;
+        }
+      }
+    }
+
+    // Header
+
+    .navbar{
+
+      .container{
+
+        padding: 10px 0px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .logo{
+          img{
+            width: 120px;
+          }
+        }
+
+        .links{
+          display: flex;
+          align-items: center;
+          gap: 10px;
+
+          .search{
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            margin-left: 10px; // Adjust spacing as needed
+            gap: 10px;
+            .select,
+            input {
+              width: 200px;
+              padding: 5px 10px;
+              border: 1px solid #ccc;
+              border-radius: 4px;
+              margin-right: 10px; // Adjust spacing between elements
+              font-size: 16px;
+            }
+
+            button{
+              width: max-content;
+              padding: 10px;
+              border: none;
+              background: teal;
+              cursor: pointer;
+              color: white;
+
+              &:hover{
+                border: 1px solid white;
+                background: $lightGreen;
+                color: black;
+              }
+            }
+          }
+
+          h6{
+            font-size: 16px;
+            font-weight: 300;
+          }
+
+          span{
+            cursor: pointer;
+          }
+
+          .write{     // css for write btn
+            background-color: $lightGreen;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 300;
+
+            &:hover{
+              width: 48px;
+              height: 48px;
+              color: teal;
+              background: white;
+              border: 1px solid teal;
+              
+            }
+          }
+        }
+      }
+    }
+    
+
+    // FOOTER
+    footer{
+      margin-top: 100px;
+      padding: 20px;
+      background: $lightGreen;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 16px;
+
+      img{
+        height: 50px;
+
+      }
+    }
+
+
+    // Home-Page
+    .mainPage{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+
+      h1{
+        text-align: center;
+      }
+      img{
+        width: 600px;
+        // aspect-ratio: 16/9;
+      }
+      
+    }
+    // About-PAGE
+    .about{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+
+      h1{
+        font-size: 36px;
+
+      }
+      
+    }
+    // Posts-PAGE
+
+    .AllPosts{
+
+      .posts{
+        margin-top: 50px;
+        display: flex;
+        flex-direction: column;
+        gap: 150px;
+
+
+        .post{
+          display: flex;
+          gap: 100px;
+
+          &:nth-child(2n+1) {     // for odd number posts - change row direction of img - content
+            flex-direction: row-reverse;
+          }
+
+          .img{
+            flex: 2;
+            position: relative;
+
+            &::after{   // right after the img 
+              content: "";
+              width: 100%;
+              height: 100%;
+              background: $lightGreen;
+              position: absolute;
+              top: 20px;
+              left: -20px;
+              z-index: -1;
+            }
+
+
+            img{
+              width: 100%;
+              max-height: 400px;
+            }
+
+          }
+
+          .content{
+            flex: 3;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            h1{
+              font-size: 48px;
+            }
+
+            p{
+              font-size: 20px;
+            }
+
+            button{
+              width: max-content;
+              padding: 10px 20px;
+              border: 1px solid $lightGreen;
+              cursor: pointer;
+              background: white;
+              color: teal;
+
+              &:hover{
+                border: 1px solid white;
+                background: $lightGreen;
+                color: black;
+              }
+            }
+
+          }
+        }
+      }
+      .error{
+        color: red;
+        text-align: center;
+        font-size: 24px;
+        margin-top: 20px;
+      }
+
+      .loadPosts{
+        width: max-content;
+        margin-top: 100px;
+        position: relative;
+        left: 45%;
+
+        button{
+          padding: 10px 20px;
+          border: 1px solid rgb(85, 62, 107);
+          cursor: pointer;
+          background-color: rgb(98, 96, 96);
+          color: white;
+
+          &:hover{
+            border: 1px solid white;
+            background-color: rgb(106, 33, 137);
+            color: black;
+          }
+        }
+      }
+    }
+
+
+    // SINGLE-POST
+
+    .singlePost{
+      display: flex;
+      gap: 50px;
+
+      .content{
+        flex: 5;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+
+        img{
+          width: 100%;
+          height: 300px;
+          object-fit: cover;
+        }
+
+        .user{
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          font-size: 14px;
+
+
+          img{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+
+          .info{
+            display: flex;
+            flex-direction: column;
+          }
+
+          span{
+            font-weight: bold;
+          }
+        }
+
+        .edit{
+          display: flex;
+          gap: 5px;
+
+          img{
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+          }
+
+        }
+
+        h1{
+          font-size: 42px;
+          color: #333;
+        }
+
+        p{
+          text-align: justify;
+          line-height: 30px;
+        }
+      }
+
+      .menu{
+        flex: 2;
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+
+        h1{
+          font-size: 20px;
+          color: #555;
+        }
+
+        .post{
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+
+          img{
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+          }
+
+          h2{
+            color: #555;
+          }
+
+          button{
+              width: max-content;
+              padding: 7.5px 15px;
+              border: 1px solid $lightGreen;
+              cursor: pointer;
+              background: white;
+              color: teal;
+
+              &:hover{
+                border: 1px solid white;
+                background: $lightGreen;
+                color: black;
+              }
+            }
+
+        }
+
+      }
+    }
+
+
+    // WRITE-PAGE
+
+    .add-post{
+      margin-top: 20px;
+      display: flex;
+      gap: 20px;
+
+      .content{
+        flex: 5;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        input{
+          padding: 10px;
+          border: 1px solid lightgray ;
+        }
+
+        .editorContainer{
+          height: 300px;
+          overflow: scroll;
+          border: 1px solid lightgrey;
+
+
+          .editor{
+            height: 100%;
+            border: none;
+          }
+        }
+      }
+
+      .menu{
+        flex: 2;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .item{
+          border: 1px solid lightgray;
+          padding: 10px;
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          font-size: 12px;
+          color: #555;
+          
+
+          h1{
+            font-size: 20px;
+          }
+
+          .file{
+            text-decoration: underline;
+            cursor: pointer;
+          }
+
+          .buttons{
+            display: flex;
+            justify-content: space-between;
+
+            :first-child{
+              cursor: pointer;
+              color: teal;
+              background: white;
+              border: 1px solid teal;
+              padding: 3px 5px;
+              
+            }
+            :last-child{
+              cursor: pointer;
+              color: white;
+              background-color: teal;
+              border: 1px solid teal;
+              padding: 3px 5px;
+
+            }
+
+          }
+        
+          .cat{
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            color: teal;
+          }
+        }
+      }
+    }
+  }
+
+}
