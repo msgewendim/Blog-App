@@ -15,7 +15,7 @@ Git installed for version control.
 Setup Instructions
 Clone the repository to your local machine:
 
-git clone https://github.com/yourusername/exalte-blog.git
+git clone to this repo
 Navigate to the project directory:
 
 cd exalte-blog
