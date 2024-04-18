@@ -44,7 +44,6 @@ export class PostController {
 
     async updatePost(req: Request, res: Response){
         const postId = +req.params.id;
-        // req.body = is all the data of the post
         const postData = req.body;
         try {
             // this method take 2 parameters the id and the content of the post need to be update
@@ -69,15 +68,18 @@ export class PostController {
     async getAllPosts(req: Request, res: Response) : Promise<void> {
         try{
             // returns all posts in the DB, possible by filter & paging 
-            const {cat, filter, uid } = req.query;
+            const {cat, filter } = req.query;
+            const uid = req.query.uid ? +req.query.uid as number : undefined;
             let page = req.query.page || 1;
             let  pageSize = req.query.pageSize || 5;
             const parsedPage = parseInt(page as string, 10)
             const parsedPageSize = parseInt(pageSize as string, 10)
-            const parsedUid = parseInt(uid as string, 10)
-            const posts = await this.postService.getAllPosts(parsedPage, parsedPageSize, parsedUid , filter as string ,cat as string );
-            if(!posts) throw new Error('NO Posts Found!');
-            res.status(200).json({ message  : "All Found Posts", posts });
+            const posts = await this.postService.getAllPosts(parsedPage, parsedPageSize, uid , filter as string ,cat as string );
+            if(posts.length === 0) {
+                res.status(404).send({ message : "Not Found Any Posts"});
+            }else{
+                res.status(200).json({ message  : "All Found Posts", posts });
+            }
         }catch(error){
             res.status(404).send((error as Error).message);
         }

@@ -46,7 +46,7 @@ export class UserService {
     try {
       await this.userDataAccessSql.deleteUser(userId);
     } catch (error) {
-      throw error;
+      throw new Error(`Unable to delete Post: ${(error as Error).message}`);
     }
   }
 

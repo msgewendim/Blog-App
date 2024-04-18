@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS public.posts
     "desc" text COLLATE pg_catalog."default" NOT NULL,
     img text COLLATE pg_catalog."default",
     uid integer NOT NULL,
-    date timestamp without time zone NOT NULL,
+    date timestamp without time zone default CURRENT_DATE,
     category character varying(255) COLLATE pg_catalog."default",
     CONSTRAINT posts_pkey PRIMARY KEY (id),
     CONSTRAINT uid FOREIGN KEY (uid)
@@ -69,11 +69,11 @@ VALUES
     ('user2', 'Qn0p0@example.com', 'user2123', 'https://i.pinimg.com/736x/5f/7f/6f/5f7f6f6b5f7f6f6b5f7f6f6b5f7f6f6b.jpg');
 
 
-INSERT INTO public.posts(title, "desc", img, uid, date, category)
+INSERT INTO public.posts(title, "desc", img, uid, category)
 VALUES
-    ('first post', 'this is my first post', 'https://images.pexels.com/photos/7008010/pexels-photo-7008010.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', 1, CURRENT_DATE, 'Art'),
-    ('second post', 'this is my second post', 'https://images.pexels.com/photos/6489663/pexels-photo-6489663.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', 2, CURRENT_DATE, 'Tech'),
-    ('third post', 'this is my third post', 'https://images.pexels.com/photos/4230630/pexels-photo-4230630.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', 3, CURRENT_DATE, 'Fashion'),
-    ('fourth post', 'this is my fourth post', 'https://images.pexels.com/photos/6157049/pexels-photo-6157049.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', 1, CURRENT_DATE, 'Food'),
-    ('fifth post', 'this is my fifth post', 'https://images.pexels.com/photos/6489663/pexels-photo-6489663.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', 2, CURRENT_DATE, 'Design'),
-    ('sixth post', 'this is my sixth post', 'https://images.pexels.com/photos/7008010/pexels-photo-7008010.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', 3, CURRENT_DATE, 'Cinema');
+    ('first post', 'this is my first post', 'https://images.pexels.com/photos/7008010/pexels-photo-7008010.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', 1, 'Art'),
+    ('second post', 'this is my second post', 'https://images.pexels.com/photos/6489663/pexels-photo-6489663.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', 2, 'Tech'),
+    ('third post', 'this is my third post', 'https://images.pexels.com/photos/4230630/pexels-photo-4230630.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', 3, 'Fashion'),
+    ('fourth post', 'this is my fourth post', 'https://images.pexels.com/photos/6157049/pexels-photo-6157049.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', 1, 'Food'),
+    ('fifth post', 'this is my fifth post', 'https://images.pexels.com/photos/6489663/pexels-photo-6489663.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', 2, 'Design'),
+    ('sixth post', 'this is my sixth post', 'https://images.pexels.com/photos/7008010/pexels-photo-7008010.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', 3, 'Cinema');

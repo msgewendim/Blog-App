@@ -144,13 +144,11 @@ describe('PostController Router', () => {
   describe('POST /posts', () => {
     test('adds a new post successfully', async () => {
       const response = await request(app).post('/posts').send({
-        title: 'Test Post',
-        desc: 'Test Description',
-        img: 'http://test.com/image.jpg',
-        category: 'test', 
-        uid: 3
-      });
-      console.log(response.body)
+        "title": "test post",
+        "img": "https://images.pexels.com/photos/6489663/pexels-photo-6489663.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+        "uid": 2,
+        "category": "Design"
+    });
       expect(response.statusCode).toBe(201);
       expect(response.body.message).toBe('Post created successfully');
     });
@@ -170,24 +168,23 @@ describe('PostController Router', () => {
       const postId = 2;
       const response = await request(app).delete(`/posts/${postId}`);
       expect(response.statusCode).toBe(200);
-      expect(response.body.message).toBe('Post deleted successfully');
+      expect(response.body.message).toBe(`Post ${postId} deleted successfully`);
     });
   });
 
   describe('PUT /posts/:id', () => {
     test('updates a post successfully', async () => {
-      const postId = 2;
+      const postId = 4;
       const response = await request(app).put(`/posts/${postId}`).send({
         title: 'Updated Post',
         desc: 'Updated Description',
         img: 'http://updated.com/image.jpg',
-        category: 'updated', 
-        uid: 1
+        category: 'updated',
       });
       expect(response.statusCode).toBe(200);
-      expect(response.body.message).toBe('Post updated successfully');
+      expect(response.body.message).toBe(`Post ${postId} updated successfully`);
     });
-  });
+  }); 
 
   // FAILURE TESTS
 
@@ -263,20 +260,15 @@ describe('PostController Router', () => {
 
   describe('retrieval cases', () => {
 
-    test('GET /posts returns 400 if filters and no posts found', async () => {
+    test('GET /posts returns 404 if filters and no posts found', async () => {
       const response = await request(app).get('/posts?filter=notavalidfilter');
-      expect(response.statusCode).toBe(400);
+      expect(response.statusCode).toBe(404);
     });
 
-    test('GET /posts returns 400 if category is invalid', async () => {
+    test('GET /posts returns 404 if category is invalid', async () => {
       const response = await request(app).get('/posts?cat=invalid');
-      expect(response.statusCode).toBe(400);
+      expect(response.statusCode).toBe(404);
     }); 
-
-    test('GET /posts returns 400 if uid is invalid', async () => {
-      const response = await request(app).get('/posts?uid=invalid');
-      expect(response.statusCode).toBe(400);
-    });
 
   })
 

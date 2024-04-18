@@ -41,6 +41,9 @@ export class PostService {
     category?: string
   ): Promise<Post[]> {
     try {
+      if (uid  && typeof uid !== "number") {
+        throw new Error("uid must be a number");
+      }
       const result = await this.postDataAccess.getAllPosts(
         page,
         pageSize,

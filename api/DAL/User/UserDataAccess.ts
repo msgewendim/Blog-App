@@ -13,14 +13,15 @@ export class UserDataAccessSql implements UserDataAccess<User> {
     return rows;
   }
 
-  async deleteUser(userId: number): Promise<void> {
+  async deleteUser(userId: number): Promise< number|null> {
     const query = "DELETE FROM users WHERE id = $1";
     const { rowCount } = await pool.query(query, [userId]);
-    if(rowCount){
+    if (rowCount === 0) {
       throw new Error(`User with ID ${userId} not found`);
+    } else {
+      return rowCount 
     }
   }
-
   async updateUser(
     userId: number,
     updateUserData: Partial<User>
