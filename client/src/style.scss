@@ -1,12 +1,20 @@
 $lightGreen : #b9e7e7;
-.app{   // root app
+.app{   
+  // root app
   display: flex;
   justify-content: center;
 
   .container{
 
-    width: 1024px;
+    width: 100%;
 
+    @media screen and (min-width: 768px) {
+      width: 768px; // Adjust container width for tablets
+    }
+
+    @media screen and (min-width: 1024px) {
+      width: 1024px; // Adjust container width for desktops
+    }
 
     .link{
       text-decoration: none;
@@ -85,6 +93,10 @@ $lightGreen : #b9e7e7;
           font-size: 18px;
           text-align: center;
         }
+      }
+
+      @media screen and (max-width: 768px) {
+        // Adjust styles for smaller screens
       }
     }
 
@@ -171,6 +183,9 @@ $lightGreen : #b9e7e7;
             }
           }
         }
+        @media screen and (max-width: 768px) {
+          // Adjust styles for smaller screens
+        }
       }
     }
     
@@ -205,6 +220,10 @@ $lightGreen : #b9e7e7;
       img{
         width: 600px;
         // aspect-ratio: 16/9;
+      }
+
+      @media screen and (max-width: 768px) {
+        // Adjust styles for smaller screens
       }
       
     }
@@ -434,6 +453,10 @@ $lightGreen : #b9e7e7;
         }
 
       }
+
+      @media screen and (max-width: 768px) {
+        // Adjust styles for smaller screens
+      }
     }
 
 
@@ -524,6 +547,9 @@ $lightGreen : #b9e7e7;
             color: teal;
           }
         }
+      }
+      @media screen and (max-width: 768px) {
+        // Adjust styles for smaller screens
       }
     }
   }
