@@ -20,7 +20,7 @@ const AuthProvider = ({children}) => {
         body : JSON.stringify(inputs)
       });
       if(!result.ok) throw new Error('Network response was not ok')
-      // console.log(result);
+      console.log(result);
       Navigate("/login")
     } catch (error) {
       console.log(error.message);
@@ -38,7 +38,10 @@ const AuthProvider = ({children}) => {
     })
 
     if(!res.ok) throw new Error('Network response was not ok')
-    setCurrentUser(await res.json())
+    const data = await res.json()
+    setCurrentUser(data)
+    console.log(data , "from login");
+    Navigate("/posts")
   }
   
   const logout = () => {

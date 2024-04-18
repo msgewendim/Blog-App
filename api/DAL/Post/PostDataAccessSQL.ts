@@ -91,7 +91,7 @@ export class PostDataAccessSQL implements DataAccess<Post> {
       } OR "desc" ILIKE $${params.length}`;
     }
 
-    query += " OFFSET $1 LIMIT $2";
+    query += " ORDER BY date DESC OFFSET $1 LIMIT $2";
     const result = await pool.query(query, params);
 
     if (result.rows.length + 1 === 0) {

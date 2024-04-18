@@ -78,6 +78,7 @@ export class PostController {
             if(posts.length === 0) {
                 res.status(404).send({ message : "Not Found Any Posts"});
             }else{
+                console.log(posts.length + " posts found");
                 res.status(200).json({ message  : "All Found Posts", posts });
             }
         }catch(error){

@@ -20,7 +20,7 @@ export class AuthService {
 
   async login(username: string, inputPassword: string): Promise<User> {
     const userFromDb = await this.authDal.login(username);
-
+    console.log("user from db: ", userFromDb);
     if (!userFromDb) {
       throw new Error(`User with username :${username} not found`);
     }
@@ -28,7 +28,7 @@ export class AuthService {
     const hash = userFromDb.password;
 
     const isCorrectPassword = await bcrypt.compare(inputPassword, hash);
-
+    console.log("isCorrectPassword: ", isCorrectPassword);
     if (!isCorrectPassword) {
       throw new Error("Wrong Username or Password!");
     }
@@ -70,6 +70,7 @@ export class AuthService {
     try {
       const userToAdd = new User(0,user.username, user.email, user.password, user.img);
       const result = await this.authDal.addGoogleUser(userToAdd);
+      console.log("google user added successfully to db: ", result);
       return result;
     } catch (error) {
       throw new Error(`Unable to add user: ${(error as Error).message}`);

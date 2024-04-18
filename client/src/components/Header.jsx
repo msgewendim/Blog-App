@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import favicon from '/favicon.ico';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { AuthContext } from '../providers/authProvider';
 import Select from "react-select"
 import { BlogContext } from '../providers/blogProvider';
@@ -19,7 +19,7 @@ const Header = () => {
   const [filter, setFilter] = useState('');
   const {logout, currentUser} = useContext(AuthContext);
   const {setPosts} = useContext(BlogContext);
-
+  const navigate = useNavigate();
   const buildUrl = () =>{
     let url = '';
     if (selectedOption) {
@@ -47,6 +47,11 @@ const Header = () => {
     }
   };
 
+  const refresh = async () =>{
+    // refresh posts at same page
+    await fetchPosts();
+    navigate(0)
+  }
   return (
     <div className="navbar">
       <div className="container">
@@ -57,7 +62,7 @@ const Header = () => {
         </div>
         <div className="links">
           <Link className='link' to={"/"}><h6>Home</h6></Link>
-          <Link className='link' to={"/posts"}><h6 onClick={fetchPosts}>Posts</h6></Link>
+          <Link className='link' to={"/posts"}><h6 onClick={refresh}>Posts</h6></Link>
           <Link className='link' to={"/about"}><h6>About</h6></Link>
           <div className="search">
             <Select

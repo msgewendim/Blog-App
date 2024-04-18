@@ -23,7 +23,7 @@ const GoogleAuth = () => {
     // const data = await response.json();
     if(!response.ok) throw new Error('Network response was not ok')
     const data = await response.json();
-
+    console.log(data, "from google auth")
     setCurrentUser(data)
     navigate("/")
   }

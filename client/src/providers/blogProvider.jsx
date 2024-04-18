@@ -18,7 +18,8 @@ export const BlogContext = createContext();
         });
         if(!response.ok) return Error("fetching failed!");
         const data = await response.json();
-        setPosts(data);
+        console.log(data, "from blog provider");
+        setPosts(data.posts);
       } catch (error) {
         console.error(error);
       }
@@ -36,7 +37,7 @@ export const BlogContext = createContext();
           img : post.img,
           desc : post.desc,
           category  : post.cat, 
-          uid : currentUser.id,
+          uid : currentUser?.id,
         };
 
         const response = await fetch(`${import.meta.env.VITE_API_URL}/posts`, {
