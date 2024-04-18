@@ -4,8 +4,8 @@ class Post {
   desc: string;
   img : string;
   category : string | undefined; 
-  date : undefined;
   uid: number;
+  date : undefined;
   
   constructor(id: number, title: string, desc: string, img: string, uid : number, category?: string) {
     this.id = id;

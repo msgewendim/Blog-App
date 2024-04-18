@@ -14,7 +14,7 @@ describe("Testing PostDAL : ", () => {
       img: "jest image",
       uid: 1,
       category: "testing",
-      date: "12/12/23",
+      date: undefined
     };
 
     beforeEach(async () => {
@@ -312,7 +312,7 @@ describe("Testing PostDAL : ", () => {
           img: "jest image changed",
           uid: 19,
           category: "category changed",
-          date: "12-11-2020",
+          date: undefined
         };
 
         const resultPostUpdated = await postDataAccessSQL.updatePost(
