@@ -40,14 +40,14 @@ export class AuthController {
         try {
             const user = await this.authService.login(username, inputPassword);
             const {password, ...otherUserData} = user
-            
-            const token = generateJwtToken(username);   
+            console.log(otherUserData);
+            // const token = generateJwtToken(username);   
         
-            res.cookie("user_token", token, {
-                httpOnly : true,
-                maxAge: 900000
-            })
-            res.status(200).send(otherUserData);
+            // res.cookie("user_token", token, {
+            //     httpOnly : true,
+            //     maxAge: 900000
+            // })
+            res.status(200).send({messge : "logged in successfully", otherUserData});
         } catch (error) {
             res.status(400).json((error as Error).message);
         }

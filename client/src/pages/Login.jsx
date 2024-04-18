@@ -29,6 +29,9 @@ const Login = () => {
   const handleLogin = async (e) =>{
     e.preventDefault()
     try {
+      if (!login) {
+        throw new Error("No login function provided")
+      }
       await login(inputs)
       navigate("/")
       toast.success("Logged in successfully")

@@ -1,5 +1,4 @@
 import { createContext, useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -8,7 +7,6 @@ export const AuthContext = createContext();
 // eslint-disable-next-line react/prop-types
 const AuthProvider = ({children}) => {
   const [currentUser, setCurrentUser] = useState(JSON.parse(sessionStorage?.getItem("user")) || '')
-
   const register = async (inputs)=>{
     
     try {
@@ -20,8 +18,6 @@ const AuthProvider = ({children}) => {
         body : JSON.stringify(inputs)
       });
       if(!result.ok) throw new Error('Network response was not ok')
-      console.log(result);
-      Navigate("/login")
     } catch (error) {
       console.log(error.message);
     }
@@ -36,12 +32,10 @@ const AuthProvider = ({children}) => {
       }, 
       body : JSON.stringify(inputs)
     })
-
+    console.log(res.body, "from login");
     if(!res.ok) throw new Error('Network response was not ok')
     const data = await res.json()
-    setCurrentUser(data)
-    console.log(data , "from login");
-    Navigate("/posts")
+    setCurrentUser(data.otherUserData)
   }
   
   const logout = () => {
