@@ -13,7 +13,6 @@ const GoogleAuth = () => {
     // send credentialResponse to backend
     const response = await fetch(`${import.meta.env.VITE_API_URL}/oauth/google`, {
       method: "POST",
-      redirect : 'follow',
       headers: {
         'Content-Type': 'application/json'
       },

@@ -33,17 +33,19 @@ export class PostDataAccessSQL implements DataAccess<Post> {
     const values: (string | number)[] = [];
 
     Object.entries(updateData).forEach(([key, value], index) => {
-      updates.push(`${key} = $${index + 1}`);
+      if (key === "desc") {
+        updates.push(`"desc" = $${index + 1}`);
+      }else{
+        updates.push(`${key} = $${index + 1}`); 
+      }
       values.push(value);
     });
 
     values.push(id);
     query += updates.join(", ") + " WHERE id = $" + values.length;
-    const result = await pool.query(query, values);
-    if (result.rowCount === 0) {
-      throw new Error(`Post with ID ${id} not found`);
-    }
-    return result.rows[0]; // returning updated post
+    query += " RETURNING *";
+    const { rows } = await pool.query(query, values);
+    return rows[0]; // returning updated post
   }
 
   async getPost(id: number): Promise<Post> {
@@ -93,10 +95,6 @@ export class PostDataAccessSQL implements DataAccess<Post> {
 
     query += " ORDER BY date DESC OFFSET $1 LIMIT $2";
     const result = await pool.query(query, params);
-
-    if (result.rows.length + 1 === 0) {
-      throw new Error("No posts found");
-    }
 
     return result.rows;
   }

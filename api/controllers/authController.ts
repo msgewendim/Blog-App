@@ -67,7 +67,6 @@ export class AuthController {
             if(!googleUserInfo) {
                 throw new Error("googleUser is null");
             }
-            console.log(googleUserInfo);
             const { name, email, picture, email_verified } = googleUserInfo as GoogleUser;
             const userData : User = {
                 id : 0, // db id
@@ -80,24 +79,28 @@ export class AuthController {
                 throw new Error("Google email not verified");
             }
             // check if user exists, if not store user info in database
-            const { password, ...user } = await this.authService.getGoogleUserFromDB(userData.email) as User;
-            if(!user) {
+            const userFromDb = await this.authService.getGoogleUserFromDB(userData.email) as User;
+            if(!userFromDb) {
                 console.log("google User not found in db , creating new user");
                 const { password, ...newUser } = await this.authService.addGoogleUser(userData) // store user info in db 
                 if(!newUser) {
                     throw new Error("Failed to create user");
                 }
                 console.log("new user created successfully", newUser);
-                res.status(200).send(newUser);
+                return res.status(200).send(newUser);  
             };
 
+            // if user exists, return user info to frontend
+            const { password, ...user } = userFromDb;
+
             // // return user info to frontend
-            // const token = generateJwtToken(user.username)  
-            // res.cookie("user_token", token, {
+            const token = generateJwtToken(req.sessionID)  
+            // res.session.cookie("user_token", token, {
             //     httpOnly : true,
             //     maxAge: 900000
             // })
-            res.status(200).send(user);
+            // req.cookie("user_token", token, accessTokenCookieOptions);
+            return res.status(200).send(user);
         } catch (error) {
             res.status(401).json((error as Error).message);
         }

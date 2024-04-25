@@ -1,17 +1,50 @@
 import { useContext, useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css"
-
 import { BlogContext } from "../providers/blogProvider";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate , } from "react-router-dom";
 
 const Write = () => {
   const [valueQUill, setValueQuill] = useState("");
   const [postData, setPostData] = useState({title : "", desc : "", img : "", cat : ""})
   const {addPost, updatePost, toast} = useContext(BlogContext);
+  const [editMode, setEditMode] = useState(false);
+  const navigate = useNavigate()
 
+  const modules = {
+    toolbar : [
+      ["bold", "italic", "underline", "strike"],
+      ["blockquote", "code-block"],
+      [{ header: [1, 2, false] }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ indent: "-1" }, { indent: "+1" }],
+      ["link", "image"],
+      ["clean"],
+    ],
+  }
+  const formats = [
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "indent",
+    "link",
+    "image",
+  ];
   const {postId} = useParams()     // localhost:3000/posts/postId for addingPost
 
+  // if url ends with posts/postId/edit => editMode = true
+  const isEdit = window.location.pathname.includes("edit");
+  useEffect(()=>{
+    if(isEdit){
+      setEditMode(true)
+    }
+  },[isEdit])
+  
   const handleChange = (e) =>{
     const {name, value } = e.target
     setValueQuill(valueQUill)
@@ -19,7 +52,7 @@ const Write = () => {
   };
   
   useEffect(()=>{
-    setPostData((prevData)=>({...prevData, desc : valueQUill.slice(3,-4)})) // => <p>{desc}</p> 
+    setPostData((prevData)=>({...prevData, desc : valueQUill})) // => <p>{desc}</p> 
   },[valueQUill])
 
 
@@ -32,25 +65,25 @@ const Write = () => {
           });
           if(!response.ok) return response.statusText;  
           const data = await response.json();
-          setPostData(data);
+          setPostData((prevData)=>({...prevData, title : data.title, desc : data.desc, img : data.img, cat : data.cat}));
+          setValueQuill(data.desc)
         } catch (error) {
-          console.error(error);
+          console.warn(error);
         }
       };
       fetchPost();
     }
   }, [postId]);
 
-  const navigate = useNavigate()
 
-  const handleClickAdd = () =>{
-    addPost(postData)
+  const handleClickAdd = async () =>{
+    await addPost(postData)
     navigate("/posts")
-    toast.success("Post added successfully")
+    toast.success("Post created successfully")
   };
 
-  const handleClickUpdate = () =>{
-    updatePost(postId, postData)
+  const handleClickUpdate = async () =>{
+    await updatePost(postId, postData)
     navigate(`/posts/${postId}`)
     toast.success("Post updated successfully")
   };
@@ -58,10 +91,10 @@ const Write = () => {
   return (
     <div className="add-post">
       <div className="content">
-        <input type="text" placeholder="Title" onChange={handleChange} name="title" required/>
-        <input type="url" onChange={handleChange} id="url" name="img" className="url" placeholder="Image Url"/>
+        <input type="text" placeholder="Title" onChange={handleChange} name="title" required value={postData.title ? postData.title : ""}/>
+        <input type="url" onChange={handleChange} id="url" name="img" className="url" placeholder="Image Url" value={postData.img ? postData.img : ""}/>
         <div className="editorContainer">
-          <ReactQuill  className="editor" name="desc" theme="snow" value={valueQUill} onChange={setValueQuill} required/>
+          <ReactQuill  className="editor" name="desc" theme="snow" formats={formats} modules={modules} value={valueQUill} onChange={setValueQuill} required/>
         </div>
       </div>
       <div className="menu">
@@ -74,15 +107,15 @@ const Write = () => {
             <b>Visibility: </b> Public
           </span>
           <div className="buttons">
-            <button onClick={handleClickAdd}>Publish</button>
-            <button onClick={handleClickUpdate}>Update</button>
+            <button onClick={handleClickAdd} disabled={editMode}>Publish</button>
+            <button onClick={handleClickUpdate} disabled={!editMode}>Update</button>
           </div>
         </div>
-        <div className="item">
+        <div className="item" value={postData.cat ? postData.cat : ""}>
           <h1>Category</h1>
           <div className="cat">            
-          <input type="radio" name="cat" value="art" id="art" onChange={handleChange}/>
-          <label htmlFor="art">Art</label>
+            <input type="radio" name="cat" value="art" id="art" onChange={handleChange}/>
+            <label htmlFor="art">Art</label>
           </div>
           <div className="cat">
             <input type="radio" name="cat" value="science" id="science" onChange={handleChange}/>

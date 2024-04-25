@@ -14,22 +14,27 @@ const Posts = () => {
 
   useEffect(()=>{
     if(!posts){
-      setError("NO More Posts Found");
+      setError("No More Posts Found");
       setPage(0)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [posts]);
 
   return (
     <div className="AllPosts">
-      <PostList posts={posts}/>
+      { posts && <PostList posts={posts}/>}
       <div className="loadPosts">
         <Link to={`/posts?page=${page}`}>
-          <button  onClick={pagination}>Load more</button>
+          {posts && 
+            <button onClick={pagination}>Load more</button>
+          }
         </Link>
       </div>
-      {error && <div className="error">
-        {error}
-      </div>}
+      {error && 
+        <div className="error">
+          {error}
+        </div>
+      }
     </div>
   )
 }

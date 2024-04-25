@@ -70,7 +70,6 @@ export class AuthService {
     try {
       const userToAdd = new User(0,user.username, user.email, user.password, user.img);
       const result = await this.authDal.addGoogleUser(userToAdd);
-      console.log("google user added successfully to db: ", result);
       return result;
     } catch (error) {
       throw new Error(`Unable to add user: ${(error as Error).message}`);
@@ -80,6 +79,7 @@ export class AuthService {
   async getGoogleUserFromDB(email: string): Promise<User | null | GoogleUser> {
     const user = await this.authDal.getUser(email);
     if (!user) {
+      console.log("user not found in db");
       return null;
     }
     return user;

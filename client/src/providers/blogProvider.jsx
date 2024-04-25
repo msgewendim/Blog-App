@@ -13,13 +13,13 @@ export const BlogContext = createContext();
     
     const fetchPosts = async () => {
       try {
-          const response = await fetch(`${import.meta.env.VITE_API_URL}/posts?page=${page? page : ""}&cat=${cat ? cat : ""}&filter=${filter ? filter :""}`, {
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/posts?${page ? `page=${page}` : ""}&${cat ? `cat=${cat}` : ""}&${filter ? `filter=${filter}` :""}`, {
           method : "GET",
         });
         if(!response.ok) return Error("fetching failed!");
         const data = await response.json();
-        console.log(data, "from blog provider");
-        setPosts(data.posts);
+        const { posts } = data;
+        setPosts(posts);
       } catch (error) {
         console.error(error);
       }
@@ -48,10 +48,9 @@ export const BlogContext = createContext();
           body : JSON.stringify(newPost)
         });
         if(!response.ok) {
-          console.warn(response.statusText); return response.status
+          console.warn(response.statusText);
+          return response.status
         }
-        toast.success("Post created!");
-
       } catch (error) {
         console.error(error);
       }
@@ -66,7 +65,6 @@ export const BlogContext = createContext();
           }, 
         });
         if(!response.ok) return response.statusText;
-        toast.success("Post deleted!");
         fetchPosts()
         Navigate("/posts")      // refresh posts => and go to posts page
       } catch (error) {
@@ -79,9 +77,11 @@ export const BlogContext = createContext();
         const updatedPost = {
           title : updatedData.title,
           img : updatedData.img,
-          desc : updatedData.desc, 
-          uid : currentUser.id,
+          desc : updatedData.desc,
+          category  : updatedData.cat, 
+          uid : currentUser.id, 
         };
+        console.log(updatedPost);
         const response = await fetch(`${import.meta.env.VITE_API_URL}/posts/${postId}`, {
           method : "PUT",
           headers : {
@@ -90,8 +90,6 @@ export const BlogContext = createContext();
           body : JSON.stringify(updatedPost) 
         });
         if(!response.ok) return response.statusText;
-        toast.success("Post updated!");
-        fetchPosts();      
       } catch (error) {
         console.error(error.message);
       }

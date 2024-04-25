@@ -7,12 +7,12 @@ import { BlogContext } from '../providers/blogProvider';
 
 
 const options = [
-  { value: 'Art', label: 'ART' },
-  { value: 'Food', label: 'FOOD' },
-  { value: 'Design', label: 'DESIGN' },
-  { value: 'Tech', label: 'TECH' },
-  { value: 'Cinema', label: 'CINEMA' },
-  { value: 'Science', label: 'SCIENCE' },
+  { value: 'art', label: 'ART' },
+  { value: 'food', label: 'FOOD' },
+  { value: 'design', label: 'DESIGN' },
+  { value: 'tech', label: 'TECH' },
+  { value: 'cinema', label: 'CINEMA' },
+  { value: 'science', label: 'SCIENCE' },
 ]
 const Header = () => {
   const [selectedOption, setSelectedOption] = useState('');
@@ -21,11 +21,12 @@ const Header = () => {
   const {setPosts} = useContext(BlogContext);
   const navigate = useNavigate();
   const buildUrl = () =>{
-    let url = '';
-    if (selectedOption) {
-      url += `?cat=${selectedOption.value}`;
+    let url = '?';
+    if (selectedOption && filter) {
+      url += `cat=${selectedOption.value}&filter=${filter}`;
     }
-    if (filter) url += `&filter=${filter}`;
+    if (selectedOption) url += `cat=${selectedOption.value}`
+    if (filter) url += `filter=${filter}`;
     return url
   }
 
@@ -41,7 +42,8 @@ const Header = () => {
       });
       if(!response.ok) return Error("fetching failed!");
       const data = await response.json();
-      setPosts(data);
+      const { posts } = data;
+      setPosts(posts);
     } catch (error) {
       console.error(error);
     }
@@ -51,6 +53,10 @@ const Header = () => {
     // refresh posts at same page
     await fetchPosts();
     navigate(0)
+  }
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
   }
   return (
     <div className="navbar">
@@ -81,7 +87,7 @@ const Header = () => {
             <Link to={buildUrl()} onClick={(event) => {event.preventDefault(); fetchPosts()}}><button className='link'>Search</button></Link>
           </div> 
           <span>{currentUser?.username}</span>
-         {currentUser ? (<span onClick={logout}>Logout</span>) : (<Link to={"/login"} className='link'>Login</Link>)}
+         {currentUser ? (<span onClick={handleLogout}>Logout</span>) : (<Link to={"/login"} className='link'>Login</Link>)}
           {
           currentUser ? (<span className='write'><Link to={`/write`} className='link'>Write</Link></span>) : (null)
           }

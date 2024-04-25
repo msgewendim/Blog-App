@@ -13,11 +13,11 @@ export class AuthDAL implements AuthAccess<User> {
     return rows[0];
   }
 
-  async getUser(email: string): Promise<User> {
+  async getUser(email: string): Promise<User | null> {
     const query = "SELECT * FROM users WHERE email = $1";
-    const result = await pool.query(query, [email]);
-    console.log("pool from db succeed");
-    return result.rows[0];
+    const {rows} = await pool.query(query, [email]);
+    console.log("user exists? ", (rows.length === 1) + " should be true");
+    return rows[0];
   }
 
   async register(user: User): Promise<User> {

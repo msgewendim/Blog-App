@@ -76,7 +76,7 @@ export class PostController {
             const parsedPageSize = parseInt(pageSize as string, 10)
             const posts = await this.postService.getAllPosts(parsedPage, parsedPageSize, uid , filter as string ,cat as string );
             if(posts.length === 0) {
-                res.status(404).send({ message : "Not Found Any Posts"});
+                res.status(200).send({ message : "Not Found Any Posts"});
             }else{
                 console.log(posts.length + " posts found");
                 res.status(200).json({ message  : "All Found Posts", posts });

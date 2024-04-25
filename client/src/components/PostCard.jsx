@@ -12,7 +12,7 @@ const PostCard = ({post}) => {
         <Link className='link' to={`/posts/${post.id}`}>
           <h1>{post.title}</h1>
         </Link>
-        <p>{post.desc}</p>
+        <p dangerouslySetInnerHTML={{__html: post.desc}} />
         <Link to={`/posts/${post.id}`}>
           <button>Read More</button>  
         </Link>

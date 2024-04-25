@@ -60,7 +60,10 @@ export class PostService {
 
   async updatePost(id: number, updateData: Partial<Post>): Promise<void> {
     try {
-      await this.postDataAccess.updatePost(id, updateData);
+      const post = await this.postDataAccess.updatePost(id, updateData);
+      if (!post) {
+        throw new Error(`Post with ID ${id} not found`);
+      }
     } catch (error) {
       throw new Error(`Unable to update Post: ${(error as Error).message}`);
     }

@@ -14,6 +14,8 @@ const SinglePost = () => {
   const {removePost, toast} = useContext(BlogContext);
   const {postId} = useParams()
   const navigate = useNavigate();
+
+
   const fetchPost = async () => {
     try {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/posts/${postId}`, {
@@ -40,17 +42,18 @@ const SinglePost = () => {
   };
 
   return (
+    // eslint-disable-next-line react/no-unknown-property
     <div className="singlePost">
       <div className="content">
         <img src={post.img} alt={post.title} />
         <div className="user">
-          <img src='' alt="" />
+          <img src={currentUser.img} alt={currentUser.username + " avatar"} />
           <div className="info">
             <span>{post.username}</span>
             <p>Posted 2 days ago</p>
           </div>
           <div className="edit">
-            { currentUser.id === post.uid && 
+            { currentUser.id === post.uid &&  
               <Link to={`/posts/${postId}/edit`} >
                 <img src={edit} alt="edit" />
               </Link> }
@@ -60,7 +63,7 @@ const SinglePost = () => {
           </div>
         </div>
         <h1>{post.title}</h1>
-        <p>{post.desc}</p>
+        <p dangerouslySetInnerHTML={{__html: post.desc}} />
       </div>
       {/* <div className="menu">
         <Menu/>
